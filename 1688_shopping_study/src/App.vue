@@ -22,6 +22,7 @@
 
 <script setup>
     import Dropdown from './components/dropdown.vue'
+    import SerchOutput from './components/serch-output.vue'
 </script>
 
 <style scoped>
@@ -30,14 +31,17 @@
    .Top-menu-content{
     width: 100%;
     height: 64px;
-    background-color: #fff;
+    background-color: #fffdfd;
     display: flex;
     padding:0 80px;
    }
   /* 搜索内容 */
    .sercher-content{
       padding:0 80px;
-      align-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
    }
 
    /* 我的内容 */

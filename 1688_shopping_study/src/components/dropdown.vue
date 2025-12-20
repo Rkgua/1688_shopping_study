@@ -6,7 +6,7 @@
            <span class="arrow-icon" :class="{'arrow-rotated':isDropdownOpen}"></span>
         </div>
          <div v-show="isDropdownOpen" class="dropdown-menu">
-            <a v-for="item in listProducts" :key="item.id" class="dropdown-item" :class="{'dropdown-item-active' :hoveredItemId===item.id}" @mouseenter="hoveredItemId=item.id" @mouseleave="hoveredItemId=null" @click.prevent="selectItem(item)">{{ item.name }}</a>
+            <div v-for="item in listProducts" :key="item.id" class="dropdown-item" :class="{'dropdown-item-active' :hoveredItemId===item.id}" @mouseenter="hoveredItemId=item.id" @mouseleave="hoveredItemId=null" @click.prevent="selectItem(item)">{{ item.name }}</div>
         </div>
      </div>
 
@@ -47,6 +47,7 @@ const selectItem = (item) =>{
     width: 70px;
     height: 40px;
     border: 1px solid #ccc;
+    padding: 0 20px 0 0;
     
   }
   .dropdown-toggle{
@@ -78,20 +79,26 @@ const selectItem = (item) =>{
     transform: rotate(180deg);
   }
   .dropdown-menu{
-    width: 90px;
-    height: 100px;
-    justify-content: space-around;
+    justify-content: center;
     text-align: center;
+    align-items: center;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     background-color: #fff;
-     
+    white-space: nowrap;
   }
   .dropdown-item{
      font-size: 15px;
+     width: 100%;
+     height: 50px;
+     display: flex;
+     justify-content: center;
+      align-items: center;
+     text-align: center;
   }
   .dropdown-item-active{
     background-color: rgb(215, 210, 210);
+    border-radius: 5px;
   }
 </style>
