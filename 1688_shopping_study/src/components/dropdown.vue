@@ -62,7 +62,6 @@ const selectItem = (item) =>{
      
   }
   .arrow-icon{
-    
     height: 15px;
     width: 20px;
     display: inline-block;

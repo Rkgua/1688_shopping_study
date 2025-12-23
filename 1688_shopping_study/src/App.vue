@@ -3,12 +3,12 @@
     <!-- 顶部菜单栏 -->
     <div class="Top-menu-content">
         <div class="sercher-content">
-            <dropdown></dropdown>
-            <serch-output></serch-output>
-            <div class="search-img"></div>
+           <dropdown></dropdown>
+              <serchoutput></serchoutput>
+            <serchImg></serchImg>
         </div>
         <div class="my-content">
-            <coin-top-menu></coin-top-menu>
+            <coinTopMenu></coinTopMenu>
             <div class="my-load">
                 <button class="my-load-button"></button>
             </div>
@@ -21,8 +21,10 @@
 </template>
 
 <script setup>
-    import Dropdown from './components/dropdown.vue'
-    import SerchOutput from './components/serch-output.vue'
+    import dropdown from './components/dropdown.vue'
+    import serchoutput from './components/serch-output.vue'
+    import serchImg from './components/serch-img.vue'
+    import coinTopMenu from './components/coin-top/coin-top-menu.vue'
 </script>
 
 <style scoped>
