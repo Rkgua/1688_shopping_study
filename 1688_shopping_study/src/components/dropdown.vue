@@ -44,7 +44,7 @@ const selectItem = (item) =>{
 
 <style scoped>
   .dropdown-container{
-    width: 70px;
+    width: 90px;
     height: 40px;
     border: 1px solid #ccc;
     padding: 0 20px 0 0;

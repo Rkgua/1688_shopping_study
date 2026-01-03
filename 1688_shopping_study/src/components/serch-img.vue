@@ -24,7 +24,7 @@ const serchMessage =ref(
 
 
 //  鼠标移入移出显示信息
- const isSerchmessage = ref(true);
+ const isSerchmessage = ref(false);
  const Openmessage = () =>{
     isSerchmessage.value = true;
  }
@@ -63,9 +63,9 @@ const serchMessage =ref(
 /* 展示信息卡片 */
     .serch-message{
         position: absolute;
-        top:70px;
+        top:50px;
         width: 250px;
-        height: 120px;
+        height: 150px;
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 5px;

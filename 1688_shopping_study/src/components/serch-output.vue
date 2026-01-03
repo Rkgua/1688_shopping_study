@@ -123,7 +123,7 @@
    }
    .serch-output-button{
       width: 75px;
-      height: 40px;
+      height: 36px;
       color: #fff;
       background-color: #FF6B4C;
       display: flex;
