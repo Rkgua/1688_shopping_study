@@ -1,114 +1,134 @@
 
 <template>
-    <!-- 顶部菜单栏 -->
-    <div class="Top-menu-content">
-        <div class="sercher-content">
-           <dropdown></dropdown>
-              <serchoutput></serchoutput>
-            <serchImg></serchImg>
-        </div>
-        <div class="my-content">
-            <coinTopMenu></coinTopMenu>
-            <div class="my-load">
-                <button class="my-load-button">登录</button>
-            </div>
-        </div>
-    </div>
-      <!-- 主要内容 -->
-    <div class="main-content">
-        <!-- 三大内容选择 -->
-        <div class="top-content"></div>
-        <!-- 轮播图 -->
-        <div class="scroll-banner"></div>
-        <!-- 部分商品介绍 -->
-        <div class="litter-banner"></div>
-        <!-- 小型商品轮播图 -->
-         <div class="litter-scroll"></div>
-         <!-- 主要商品介绍 -->
-        <div class="title-content"></div>
-        <!-- 主要商品展示 -->
-        <div class="most-products"></div>
-    
+  <a-layout class="app-layout">
+    <a-layout-header class="header">
+      <div class="header-inner">
+        <div class="brand" @click="toPage('/products')">1688 严选</div>
+        <a-input-search
+          v-model:value="keyword"
+          class="search"
+          placeholder="搜索商品、工厂、品牌"
+          enter-button="搜索"
+          @search="onSearch"
+        />
+        <a-menu
+          mode="horizontal"
+          :selected-keys="selectedKeys"
+          class="header-menu"
+          @click="onMenuClick"
+        >
+          <a-menu-item key="/products">产品页</a-menu-item>
+          <a-menu-item key="/user">用户页</a-menu-item>
+          <a-menu-item key="/cart">
+            <a-badge :count="cartCount" :overflow-count="9999" size="small">
+              购物车
+            </a-badge>
+          </a-menu-item>
+        </a-menu>
+        <a-button :type="isLoggedIn ? 'default' : 'primary'" @click="toggleLogin">
+          {{ isLoggedIn ? '退出登录' : '登录' }}
+        </a-button>
+      </div>
+    </a-layout-header>
 
-    </div>
-      <!-- 组件复用 -->
-
-
+    <a-layout-content class="page-content">
+      <router-view />
+    </a-layout-content>
+  </a-layout>
 </template>
 
 <script setup>
-    import dropdown from './components/dropdown.vue'
-    import serchoutput from './components/serch-output.vue'
-    import serchImg from './components/serch-img.vue'
-    import coinTopMenu from './components/coin-top/coin-top-menu.vue'
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
+import { shopStore } from '@/store/shop'
+
+const router = useRouter()
+const route = useRoute()
+const keyword = ref('')
+const selectedKeys = computed(() => [route.path.startsWith('/products/') ? '/products' : route.path])
+const cartCount = computed(() => shopStore.cartTotalCount.value)
+const isLoggedIn = computed(() => shopStore.state.user.isLoggedIn)
+
+const toPage = (path) => {
+  router.push(path)
+}
+
+const onMenuClick = ({ key }) => {
+  toPage(key)
+}
+
+const onSearch = (value) => {
+  if (!value) return
+  message.success(`已为你搜索：${value}`)
+}
+
+const toggleLogin = () => {
+  if (isLoggedIn.value) {
+    shopStore.logout()
+    message.success('已退出登录')
+    return
+  }
+  shopStore.login()
+  message.success('登录成功')
+}
 </script>
 
 <style scoped>
-
-/* 顶部菜单栏 */
-   .Top-menu-content{
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 64px;
-    background-color: #fffdfd;
-    display: flex;
-    justify-content: space-between;
-    padding:0 80px;
-   }
-   .sercher-content{
-      padding:0 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
-   }
-   .my-content{
-    display: flex;
-    align-items: center;
-    
-   }
-   .my-load{
-    width: 57px;
-    height: 42px;
-   }
-   .my-load-button{
-       margin: 0 0 0 16px;
-       border-radius: 50%;
-       width: 41px;
-       height: 41px;
-       background-color:#F8F8F9;
-       color: black;
-   }
-
-/* 主要内容 */
-.main-content{
-    margin: 0 16px;
-    padding: 0 80px;
+.app-layout {
+  min-height: 100vh;
 }
 
-.top-content{
-    width: 100%;
-    height: 33px;
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: auto;
+  line-height: normal;
+  padding: 10px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
 }
-.scroll-banner{
-    width: 100%;
-    height: 260px;
+
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 140px 1fr 360px auto;
+  gap: 16px;
+  align-items: center;
 }
-.litter-banner{
-    width: 100%;
-    height: 362px;
+
+.brand {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fa541c;
+  cursor: pointer;
 }
-.litter-scroll{
-    width: 100%;
-    height: 64px;
+
+.search {
+  max-width: 760px;
 }
-.title-content{
-    width: 100%;
-    height: 48px;
+
+.header-menu {
+  border-bottom: none;
+  min-width: 320px;
+  justify-content: flex-end;
 }
-.most-products{
-    width: 100%;
-    height: 3360px;
+
+.page-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 24px 28px;
+}
+
+@media (max-width: 992px) {
+  .header-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .header-menu {
+    justify-content: flex-start;
+  }
 }
 </style>
