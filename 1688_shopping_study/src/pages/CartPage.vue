@@ -31,7 +31,7 @@
         <a-card title="猜你喜欢">
           <a-row :gutter="[12, 12]">
             <a-col v-for="item in recommendProducts" :key="item.name" :span="8">
-              <a-card size="small" hoverable>
+              <a-card size="small" hoverable class="recommend-card" @click="toDetail(item.productId)">
                 <div class="recommend-title">{{ item.name }}</div>
                 <div class="recommend-price">¥{{ item.price }}</div>
               </a-card>
@@ -58,8 +58,11 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { shopStore } from '@/store/shop'
+
+const router = useRouter()
 
 const cartItems = shopStore.cartDetailedItems
 
@@ -73,9 +76,9 @@ const columns = [
 ]
 
 const recommendProducts = [
-  { name: '便携充电宝 20000mAh', price: 48 },
-  { name: '厨房密封储物罐', price: 5.8 },
-  { name: '帆布托特包', price: 11.6 }
+  { name: '便携充电宝 20000mAh', price: 48, productId: 10 },
+  { name: '厨房密封储物罐', price: 5.8, productId: 4 },
+  { name: '帆布托特包', price: 11.6, productId: 12 }
 ]
 
 const totalPrice = computed(() => cartItems.value.reduce((sum, item) => sum + item.unitPrice * item.qty, 0))
@@ -91,6 +94,10 @@ const onRemove = (productId) => {
   shopStore.removeFromCart(productId)
   message.success('已从购物车移除')
 }
+
+const toDetail = (productId) => {
+  router.push(`/products/${productId}`)
+}
 </script>
 
 <style scoped>
@@ -104,6 +111,10 @@ const onRemove = (productId) => {
 
 .recommend-title {
   color: #595959;
+}
+
+.recommend-card {
+  cursor: pointer;
 }
 
 .recommend-price {

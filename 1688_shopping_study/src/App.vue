@@ -60,7 +60,15 @@ const onMenuClick = ({ key }) => {
 
 const onSearch = (value) => {
   if (!value) return
-  message.success(`已为你搜索：${value}`)
+  const results = shopStore.products.filter(p => 
+    p.name.toLowerCase().includes(value.toLowerCase()) || 
+    p.desc.toLowerCase().includes(value.toLowerCase())
+  )
+  if (results.length > 0) {
+    router.push(`/products/${results[0].id}`)
+  } else {
+    message.warning('未找到相关产品')
+  }
 }
 
 const toggleLogin = () => {
